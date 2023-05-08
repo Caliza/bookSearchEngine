@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Thought } = require('../models');
+const { User, Book } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -50,8 +50,8 @@ const resolvers = {
       // Return an `Auth` object that consists of the signed token and user's information
       return { token, user };
     },
-    addThought: async (parent, { thoughtText, thoughtAuthor }) => {
-      const thought = await Thought.create({ thoughtText, thoughtAuthor });
+    saveBook: async (parent, arg, bookData) => {
+      const book = await Book.create({ thoughtText, thoughtAuthor });
 
       await User.findOneAndUpdate(
         { username: thoughtAuthor },
@@ -60,28 +60,28 @@ const resolvers = {
 
       return thought;
     },
-    addComment: async (parent, { thoughtId, commentText, commentAuthor }) => {
-      return Thought.findOneAndUpdate(
-        { _id: thoughtId },
-        {
-          $addToSet: { comments: { commentText, commentAuthor } },
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+    // addComment: async (parent, { thoughtId, commentText, commentAuthor }) => {
+    //   return Thought.findOneAndUpdate(
+    //     { _id: thoughtId },
+    //     {
+    //       $addToSet: { comments: { commentText, commentAuthor } },
+    //     },
+    //     {
+    //       new: true,
+    //       runValidators: true,
+    //     }
+    //   );
+    // },
+    removeBook: async (parent, arg, bookId) => {
+      return Book.findOneAndDelete({ _id: bookId });
     },
-    removeThought: async (parent, { thoughtId }) => {
-      return Thought.findOneAndDelete({ _id: thoughtId });
-    },
-    removeComment: async (parent, { thoughtId, commentId }) => {
-      return Thought.findOneAndUpdate(
-        { _id: thoughtId },
-        { $pull: { comments: { _id: commentId } } },
-        { new: true }
-      );
-    },
+    // removeComment: async (parent, { thoughtId, commentId }) => {
+    //   return Thought.findOneAndUpdate(
+    //     { _id: thoughtId },
+    //     { $pull: { comments: { _id: commentId } } },
+    //     { new: true }
+    //   );
+    // },
   },
 };
 
