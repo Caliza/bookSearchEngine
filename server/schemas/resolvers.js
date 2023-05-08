@@ -51,7 +51,7 @@ const resolvers = {
       return { token, user };
     },
     saveBook: async (parent, arg, bookData) => {
-      const book = await Book.create({ thoughtText, thoughtAuthor });
+      const book = await Book.create({ bookData });
 
       await User.findOneAndUpdate(
         { username: thoughtAuthor },
