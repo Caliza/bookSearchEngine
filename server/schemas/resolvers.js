@@ -50,8 +50,8 @@ const resolvers = {
       // Return an `Auth` object that consists of the signed token and user's information
       return { token, user };
     },
-    saveBook: async (parent, arg, bookData) => {
-      const book = await Book.create({ bookData });
+    addThought: async (parent, { thoughtText, thoughtAuthor }) => {
+      const thought = await Thought.create({ thoughtText, thoughtAuthor });
 
       await User.findOneAndUpdate(
         { username: thoughtAuthor },
@@ -60,6 +60,21 @@ const resolvers = {
 
       return thought;
     },
+    saveBook: async (parent, arg, bookData) => {
+      Book.findOneAndUpdate(
+      { _id: req.params.bookData },
+      { $addToSet: { reactions: req.body} },
+      { runValidators: true, new: true }
+    )
+      .then((bookData) =>
+        !bookData
+          ? res
+              .status(404)
+              .json({ message: 'No book found with that ID :(' })
+          : res.json(bookData)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
     // addComment: async (parent, { thoughtId, commentText, commentAuthor }) => {
     //   return Thought.findOneAndUpdate(
     //     { _id: thoughtId },
