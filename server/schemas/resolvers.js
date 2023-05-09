@@ -50,53 +50,31 @@ const resolvers = {
       // Return an `Auth` object that consists of the signed token and user's information
       return { token, user };
     },
-    addThought: async (parent, { thoughtText, thoughtAuthor }) => {
-      const thought = await Thought.create({ thoughtText, thoughtAuthor });
+    // addThought: async (parent, { thoughtText, thoughtAuthor }) => {
+    //   const thought = await Thought.create({ thoughtText, thoughtAuthor });
 
-      await User.findOneAndUpdate(
-        { username: thoughtAuthor },
-        { $addToSet: { thoughts: thought._id } }
-      );
-
-      return thought;
-    },
-    saveBook: async (parent, arg, bookData) => {
-      Book.findOneAndUpdate(
-      { _id: req.params.bookData },
-      { $addToSet: { reactions: req.body} },
-      { runValidators: true, new: true }
-    )
-      .then((bookData) =>
-        !bookData
-          ? res
-              .status(404)
-              .json({ message: 'No book found with that ID :(' })
-          : res.json(bookData)
-      )
-      .catch((err) => res.status(500).json(err));
-  },
-    // addComment: async (parent, { thoughtId, commentText, commentAuthor }) => {
-    //   return Thought.findOneAndUpdate(
-    //     { _id: thoughtId },
-    //     {
-    //       $addToSet: { comments: { commentText, commentAuthor } },
-    //     },
-    //     {
-    //       new: true,
-    //       runValidators: true,
-    //     }
+    //   await User.findOneAndUpdate(
+    //     { username: thoughtAuthor },
+    //     { $addToSet: { thoughts: thought._id } }
     //   );
+
+    //   return thought;
     // },
+    saveBook: async (parent, arg, bookData) => {
+      const book = await Book.create({
+        bookData
+      });
+      
+      await Book.findOneAndUpdate(
+      {username: savedBooks },
+      { $addToSet: { savedBooks: book._id} } 
+    );
+    return book;  
+  },
+   
     removeBook: async (parent, arg, bookId) => {
       return Book.findOneAndDelete({ _id: bookId });
     },
-    // removeComment: async (parent, { thoughtId, commentId }) => {
-    //   return Thought.findOneAndUpdate(
-    //     { _id: thoughtId },
-    //     { $pull: { comments: { _id: commentId } } },
-    //     { new: true }
-    //   );
-    // },
   },
 };
 
