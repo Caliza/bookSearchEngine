@@ -65,7 +65,7 @@ const resolvers = {
         bookData
       });
       
-      await Book.findOneAndUpdate(
+      await User.findOneAndUpdate(
       {username: savedBooks },
       { $addToSet: { savedBooks: book._id} } 
     );
