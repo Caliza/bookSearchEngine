@@ -28,19 +28,19 @@ export const LOGIN_USER = gql`
   
 `;
 
-// export const SAVE_BOOK = gql`
-//   mutation saveBook($bookData: bookData!){
-//     saveBook(bookData: bookData$){
-//     _id
-//     savedBooks {
-//       title
-//       bookId
-//       authors
-//       description
-//       image
-//       link
-//     }
-//     }
-//   }
-// `
+export const SAVE_BOOK = gql`
+  mutation saveBook($bookData: bookData!){
+    saveBook(bookData: $bookData){
+    _id
+    savedBooks {
+      title
+      bookId
+      authors
+      description
+      image
+      link
+    }
+    }
+  }
+`
 
