@@ -57,7 +57,7 @@ const resolvers = {
       }
     },
 
-    removeBook: async (parent, arg, bookId) => {
+    removeBook: async (parent, {bookId}) => {
       return Book.findOneAndDelete({ _id: bookId });
     },
   },
