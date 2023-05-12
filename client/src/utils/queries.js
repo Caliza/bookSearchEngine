@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const QUERY_PROFILES = gql`
-  query allProfiles {
+  query getProfile {
     me {
         _id
         bookCount
@@ -18,3 +18,4 @@ export const QUERY_PROFILES = gql`
     }
   }
 `;
+
