@@ -7,6 +7,8 @@
 
   * [Usage](#usage)
 
+  * [Image](#image)
+
   * [Links](#links)
 
   * [Questions](#questions)
@@ -23,6 +25,8 @@
  - Go to application url, create a sign-up.
  - Once logged, search for books in the search bar.
  - Save desired books to cart. Within cart you can remove any books from cart.
+
+## Image
     
  ![bookSearchEngine](./assets/images/searchBook.jpg)
 
